@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title>Add Student</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+</head>
+
+<body class="container mt-4">
+
+<h2>Додати студента</h2>
+
+<form th:action="@{/api/v2/students/add}"
+      th:object="${student}"
+      method="post">
+
+    <div class="mb-3">
+
+        <input class="form-control"
+               type="text"
+               th:field="*{name}"
+               placeholder="Name">
+
+    </div>
+
+    <div class="mb-3">
+
+        <input class="form-control"
+               type="number"
+               th:field="*{age}"
+               placeholder="Age">
+
+    </div>
+
+    <div class="mb-3">
+
+        <input class="form-control"
+               type="email"
+               th:field="*{email}"
+               placeholder="Email">
+
+    </div>
+
+    <button class="btn btn-success"
+            type="submit">
+        Save
+    </button>
+
+</form>
+
+</body>
+</html>

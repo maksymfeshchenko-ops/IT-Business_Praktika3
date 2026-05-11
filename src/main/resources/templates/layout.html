@@ -1,0 +1,22 @@
+<div th:fragment="menu">
+    <nav>
+        <a href="/api/v2/students">Список студентів</a>
+
+        <span sec:authorize="hasRole('ADMIN')">
+            | <a href="/api/v2/students/add">Додати нового</a>
+        </span>
+
+        <div sec:authorize="hasAnyRole('ADMIN', 'MODERATOR')" style="display: inline-block; margin-left: 20px;">
+            <form action="/api/v2/students/search" method="get">
+                <input type="text" name="name" placeholder="Пошук...">
+                <button type="submit">Знайти</button>
+            </form>
+        </div>
+
+        <div sec:authorize="isAuthenticated()" style="float: right;">
+            <form th:action="@{/logout}" method="post">
+                <button type="submit">Вийти</button>
+            </form>
+        </div>
+    </nav>
+</div>

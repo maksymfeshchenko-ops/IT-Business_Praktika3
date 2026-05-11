@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+
+    <title>Students</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+</head>
+
+<body class="container mt-4">
+
+<h2>Список студентів</h2>
+
+<p>Привіт, <b th:text="${username}"></b></p>
+
+<div class="mb-3">
+
+    <a sec:authorize="hasRole('ADMIN')"
+       href="/api/v2/students/add"
+       class="btn btn-primary">
+        Додати
+    </a>
+
+</div>
+
+<div sec:authorize="hasAnyRole('ADMIN','MODERATOR')">
+
+    <form action="/api/v2/students/search"
+          method="get"
+          class="mb-3">
+
+        <input type="text"
+               name="name"
+               placeholder="Пошук">
+
+        <button class="btn btn-warning"
+                type="submit">
+            Пошук
+        </button>
+
+    </form>
+
+</div>
+
+<table class="table table-bordered">
+
+    <tr>
+        <th>ID</th>
+        <th>Ім'я</th>
+        <th>Вік</th>
+        <th>Email</th>
+
+        <th sec:authorize="hasRole('ADMIN')">
+            Дії
+        </th>
+    </tr>
+
+    <tr th:each="student : ${students}">
+
+        <td th:text="${student.id}"></td>
+
+        <td th:text="${student.name}"></td>
+
+        <td th:text="${student.age}"></td>
+
+        <td th:text="${student.email}"></td>
+
+        <td sec:authorize="hasRole('ADMIN')">
+
+            <a class="btn btn-sm btn-info"
+               th:href="@{/api/v2/students/edit/{id}(id=${student.id})}">
+                Edit
+            </a>
+
+            <a class="btn btn-sm btn-danger"
+               th:href="@{/api/v2/students/delete/{id}(id=${student.id})}">
+                Delete
+            </a>
+
+        </td>
+
+    </tr>
+
+</table>
+
+<form th:action="@{/logout}" method="post">
+
+    <button class="btn btn-danger"
+            type="submit">
+        Logout
+    </button>
+
+</form>
+
+</body>
+</html>
